@@ -30,14 +30,18 @@ export const styles = {
     position: 'relative',
     userSelect: 'none',
     py: 0.65,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   tableRow: {
     '&:last-child td, &:last-child th': { border: 0 },
     '& td, & th': {
       py: 0.4,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
-  },
-  skuCell: {
   },
   loadingBox: {
     display: 'flex',

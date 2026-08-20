@@ -30,7 +30,10 @@ export default function TransactionTableToolbar({
     e.stopPropagation();
     e.preventDefault();
     startXRef.current = e.clientX;
-    startWidthRef.current = columnWidths[colId];
+
+    // Dynamically measure rendered pixel width from DOM instead of parsing percentage strings
+    const thElement = e.currentTarget.parentElement;
+    startWidthRef.current = thElement ? thElement.offsetWidth : 100;
     activeColRef.current = colId;
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -40,8 +43,8 @@ export default function TransactionTableToolbar({
   const handleMouseMove = (e) => {
     if (!activeColRef.current) return;
     const deltaX = e.clientX - startXRef.current;
-    const newWidth = Math.max(70, startWidthRef.current + deltaX);
-    onColumnResize(activeColRef.current, newWidth);
+    const newWidth = Math.max(80, startWidthRef.current + deltaX);
+    onColumnResize(activeColRef.current, `${newWidth}px`);
   };
 
   const handleMouseUp = () => {

@@ -9,8 +9,8 @@ export default function TransactionRow({ transaction, onDelete }) {
 
   return (
     <TableRow hover sx={styles.tableRow}>
-      <TableCell sx={styles.skuCell}>{transaction.id}</TableCell>
-      <TableCell sx={styles.skuCell}>{transaction.sku}</TableCell>
+      <TableCell>{transaction.id}</TableCell>
+      <TableCell>{transaction.sku}</TableCell>
       <TableCell>{transaction.itemName}</TableCell>
       <TableCell>{transaction.category}</TableCell>
       <TableCell align="center">
