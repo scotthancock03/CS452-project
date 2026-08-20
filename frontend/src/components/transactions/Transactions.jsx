@@ -175,6 +175,7 @@ export default function Transactions() {
               setRowsPerPage(parseInt(e.target.value, 10));
               setPage(0);
             }}
+            sx={styles.paginationBar}
           />
         </>
       )}
