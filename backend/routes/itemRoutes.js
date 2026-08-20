@@ -31,9 +31,10 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a new inventory item
 router.post('/', async (req, res) => {
   try {
-    const { name, category, quantity, price, lowStockThreshold } = req.body;
+    const { sku, name, category, quantity, price, lowStockThreshold } = req.body;
 
     const newItem = new Item({
+      sku,
       name,
       category,
       quantity,
@@ -41,7 +42,7 @@ router.post('/', async (req, res) => {
       lowStockThreshold,
     });
 
-    const savedItem = await newItem.save();
+    const savedItem = await newItem.save(); // Triggers post('save') middleware automatically
     res.status(201).json(savedItem);
   } catch (error) {
     res.status(400).json({ message: 'Validation Error', error: error.message });
@@ -52,16 +53,16 @@ router.post('/', async (req, res) => {
 // @desc    Update an existing item
 router.put('/:id', async (req, res) => {
   try {
-    const updatedItem = await Item.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true } // Returns updated doc & runs Schema validation
-    );
+    const item = await Item.findById(req.params.id);
 
-    if (!updatedItem) {
+    if (!item) {
       return res.status(404).json({ message: 'Item not found' });
     }
 
+    // Apply updates directly to document
+    Object.assign(item, req.body);
+
+    const updatedItem = await item.save(); // Triggers post('save') middleware automatically
     res.status(200).json(updatedItem);
   } catch (error) {
     res.status(400).json({ message: 'Update Error', error: error.message });
@@ -69,7 +70,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // @route   DELETE /api/items/:id
-// @desc    Delete an item by ID
+// @desc    Delete an item by ID (Transactions remain saved)
 router.delete('/:id', async (req, res) => {
   try {
     const deletedItem = await Item.findByIdAndDelete(req.params.id);

@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const itemRoutes = require('./routes/itemRoutes'); // Import routes
+//Models are imported so Mongoose registers them
+require('./models/Transaction');
+require('./models/Item');
 
 const app = express();
 
@@ -11,13 +13,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Mount API Routes
-app.use('/api/items', itemRoutes);
+// Routes
+app.use('/api/items', require('./routes/itemRoutes'));
+app.use('/api/transactions', require('./routes/transactionRoutes'));
 
-// Database Connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.error('MongoDB Connection Error:', err));
-
+// Connect to MongoDB & Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoose
+  .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/inventory')
+  .then(() => {
+    console.log('MongoDB Connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => console.error(err));
