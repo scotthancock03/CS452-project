@@ -7,7 +7,7 @@ const headCells = [
   { id: 'sku', label: 'SKU', align: 'left' },
   { id: 'itemName', label: 'Item Name', align: 'left' },
   { id: 'category', label: 'Category', align: 'left' },
-  { id: 'quantity', label: 'Quantity Delta', align: 'center' },
+  { id: 'quantity', label: 'Quantity', align: 'center' },
   { id: 'createdAt', label: 'Date & Time Recorded', align: 'left' },
 ];
 
