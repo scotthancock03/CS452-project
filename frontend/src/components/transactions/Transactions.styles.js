@@ -2,9 +2,9 @@ import { visuallyHidden } from '@mui/utils';
 
 export const styles = {
   paperContainer: {
-    p: 1.75, 
+    p: 1.75,
     borderRadius: 2,
-    width: '98%',
+    width: '97%',
     margin: '0 auto',
   },
   headerBox: {
@@ -38,8 +38,6 @@ export const styles = {
     },
   },
   skuCell: {
-    fontFamily: 'monospace',
-    fontWeight: 'bold',
   },
   loadingBox: {
     display: 'flex',
