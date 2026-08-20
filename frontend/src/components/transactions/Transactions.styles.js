@@ -4,7 +4,7 @@ export const styles = {
   paperContainer: {
     p: 1.75,
     borderRadius: 2,
-    width: '97%',
+    width: '98%',
     margin: '0 auto',
   },
   headerBox: {
