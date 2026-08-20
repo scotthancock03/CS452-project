@@ -2,6 +2,7 @@ import './App.css';
 import Inventory from './components/Inventory';
 import AboutUs from './components/AboutUs';
 import NavBar from './components/NavBar';
+import Transactions from './components/transactions/Transactions';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           {/* Pages currently available */}
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/transactions" element={<Transactions />} />
           <Route path="/about" element={<AboutUs />} />
         </Routes>
       </div>

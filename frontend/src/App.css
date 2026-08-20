@@ -1,8 +1,9 @@
 .App {
-  max-width: 75%;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
   padding: 0 20px;
-  text-align: center;
+  box-sizing: border-box; /* Ensures 20px padding doesn't push width past 100% */
 }
 
 /* -------------------------------------------------------- */
