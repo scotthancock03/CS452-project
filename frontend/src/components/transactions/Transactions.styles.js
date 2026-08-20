@@ -22,8 +22,16 @@ export const styles = {
     flexGrow: 1,
     fontSize: '1.3rem',
   },
+  tableContainer: {
+    width: '100%',
+    maxWidth: '100%',
+    maxHeight: '65vh', // Restricts container height to enable internal scroll
+    overflowY: 'auto',
+  },
   tableHeader: {
-    backgroundColor: (theme) => theme.palette.action.hover,
+    '& th': {
+      backgroundColor: (theme) => theme.palette.background.paper, // Keeps sticky header background opaque
+    },
   },
   tableHeaderCell: {
     fontWeight: 'bold',

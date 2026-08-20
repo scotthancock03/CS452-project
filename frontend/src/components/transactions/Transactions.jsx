@@ -131,8 +131,8 @@ export default function Transactions() {
         </Box>
       ) : (
         <>
-          <TableContainer sx={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
-            <Table sx={styles.table} size="small" aria-label="transaction history table">
+          <TableContainer sx={styles.tableContainer}>
+            <Table stickyHeader sx={styles.table} size="small" aria-label="transaction history table">
               <TransactionTableToolbar
                 order={order}
                 orderBy={orderBy}
