@@ -154,7 +154,7 @@ export default function Inventory() {
                         ) : (
                             filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((p) => (
                                 <TableRow key={p.id} hover onClick={() => setSelectedProduct(p)} sx={styles.tableRow}>
-                                    <TableCell sx={{ fontFamily: 'monospace', fontWeight: 600, color: '#334155' }}>#{p.id}</TableCell>
+                                    <TableCell sx={{ fontFamily: 'monospace', fontWeight: 600, color: '#334155' }}>{p.id}</TableCell>
                                     <TableCell sx={{ fontFamily: 'monospace', fontWeight: 600, color: '#1877F2' }}>{p.sku}</TableCell>
                                     <TableCell>{p.name}</TableCell>
                                     <TableCell><Chip label={p.category} sx={{ bgcolor: '#F1F5F9', color: '#334155', fontWeight: 500, fontSize: '0.75rem', height: 24 }} /></TableCell>

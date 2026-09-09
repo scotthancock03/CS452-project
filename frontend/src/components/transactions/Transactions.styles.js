@@ -48,8 +48,16 @@ export const styles = {
     bgcolor: isPositive ? '#E6F4EA' : '#FCE8E6',
     color: isPositive ? '#137333' : '#C5221F',
     fontWeight: 700,
+    fontSize: '0.75rem',
     height: 24,
   }),
+  categoryChip: {
+    bgcolor: '#F1F5F9',
+    color: '#334155',
+    fontWeight: 500,
+    fontSize: '0.75rem',
+    height: 24,
+  },
   paginationBar: {
     bgcolor: '#EDF4FC',
     borderTop: '1px solid #D0E1F9',
