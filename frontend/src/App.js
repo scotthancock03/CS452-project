@@ -1,7 +1,7 @@
 import './App.css';
-import Inventory from './components/Inventory';
-import AboutUs from './components/AboutUs';
-import NavBar from './components/NavBar';
+import Inventory from './components/inventory/Inventory';
+import AboutUs from './components/aboutus/AboutUs';
+import NavBar from './components/navbar/NavBar';
 import Transactions from './components/transactions/Transactions';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
