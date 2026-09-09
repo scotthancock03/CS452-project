@@ -31,6 +31,11 @@ const itemSchema = new mongoose.Schema(
       min: [0, 'Price cannot be negative'],
       default: 0,
     },
+    description: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     lowStockThreshold: {
       type: Number,
       min: [0, 'Threshold cannot be negative'],
@@ -39,6 +44,14 @@ const itemSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
   }
 );
 
@@ -47,10 +60,10 @@ itemSchema.post('save', async function (doc, next) {
   try {
     const Transaction = mongoose.model('Transaction');
 
-    // Automatically record SKU, name, quantity snapshot, and timestamp
     await Transaction.create({
       sku: doc.sku,
       itemName: doc.name,
+      category: doc.category,
       quantity: doc.quantity,
     });
 
