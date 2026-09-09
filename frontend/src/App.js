@@ -1,8 +1,15 @@
 import './App.css';
+<<<<<<< HEAD
 import Inventory from './components/inventory/Inventory';
 import AboutUs from './components/aboutus/AboutUs';
 import NavBar from './components/navbar/NavBar';
+=======
+
+import AboutUs from './components/AboutUs';
+import NavBar from './components/NavBar';
+>>>>>>> 8a31d42 (Addition of files for the inventory component page: Inventory.jsx & Inventory.styles.js)
 import Transactions from './components/transactions/Transactions';
+import Inventory from './components/inventory/Inventory';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
