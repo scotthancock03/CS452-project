@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Transaction = require('./Transaction');
 
 const itemSchema = new mongoose.Schema(
   {
@@ -55,21 +56,39 @@ const itemSchema = new mongoose.Schema(
   }
 );
 
-// Automatic Transaction Logging Middleware
-itemSchema.post('save', async function (doc, next) {
+// Cache initial quantity when loaded from MongoDB
+itemSchema.post('init', function () {
+  this._originalQuantity = this.quantity;
+});
+
+// Calculate quantity delta prior to saving
+itemSchema.pre('save', function () {
+  this._wasNew = this.isNew;
+  if (this.isNew) {
+    this._quantityDelta = this.quantity;
+  } else if (this.isModified('quantity')) {
+    const prev = this._originalQuantity !== undefined ? this._originalQuantity : this.quantity;
+    this._quantityDelta = this.quantity - prev;
+  } else {
+    this._quantityDelta = 0;
+  }
+});
+
+// Automatically log transaction record
+itemSchema.post('save', async function (doc) {
   try {
-    const Transaction = mongoose.model('Transaction');
+    const qtyToLog = doc._quantityDelta !== undefined ? doc._quantityDelta : doc.quantity;
 
-    await Transaction.create({
-      sku: doc.sku,
-      itemName: doc.name,
-      category: doc.category,
-      quantity: doc.quantity,
-    });
-
-    next();
+    if (doc._wasNew || qtyToLog !== 0) {
+      await Transaction.create({
+        sku: doc.sku,
+        itemName: doc.name,
+        category: doc.category,
+        quantity: qtyToLog,
+      });
+    }
   } catch (error) {
-    next(error);
+    console.error('Failed to log automatic transaction:', error.message);
   }
 });
 

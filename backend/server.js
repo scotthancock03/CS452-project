@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-//Models are imported so Mongoose registers them
+// Register Models
 require('./models/Transaction');
 require('./models/Item');
 
@@ -25,4 +25,4 @@ mongoose
     console.log('MongoDB Connected');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
-  .catch((err) => console.error(err));
+  .catch((err) => console.error('MongoDB connection error:', err));
