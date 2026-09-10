@@ -20,30 +20,33 @@ export const styles = {
     borderBottom: '1px solid #D0E1F9',
     flexShrink: 0,
   },
-  tableContainer: {
+  tableContainer: (rowsPerPage) => ({
     width: '100%',
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    overflowY: 'hidden',
-  },
-  table: {
+    overflowY: rowsPerPage > 10 ? 'auto' : 'hidden',
+  }),
+  table: (rowsPerPage) => ({
     width: '100%',
-    height: '100%',
+    height: rowsPerPage > 10 ? 'auto' : '100%',
     tableLayout: 'fixed',
-  },
+  }),
   tableHeader: {
     bgcolor: '#F8FAFC',
     '& th': { bgcolor: '#F8FAFC', color: '#1C2B46', fontWeight: 700, py: 1 },
   },
-  tableBody: {
-    height: '100%',
+  tableHeaderCell: {
+    position: 'relative',
   },
-  tableRow: {
-    height: '10%',
+  tableBody: (rowsPerPage) => ({
+    height: rowsPerPage > 10 ? 'auto' : '100%',
+  }),
+  tableRow: (rowsPerPage) => ({
+    height: rowsPerPage > 10 ? 44 : '10%',
     '& td': { py: 0, whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
     '&:hover': { bgcolor: '#F8FAFC' },
-  },
+  }),
   stockChip: (isPositive) => ({
     bgcolor: isPositive ? '#E6F4EA' : '#FCE8E6',
     color: isPositive ? '#137333' : '#C5221F',

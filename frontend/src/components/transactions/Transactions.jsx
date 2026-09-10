@@ -123,8 +123,8 @@ export default function Transactions() {
         </Box>
       ) : (
         <>
-          <TableContainer sx={styles.tableContainer}>
-            <Table stickyHeader sx={styles.table} size="small">
+          <TableContainer sx={styles.tableContainer(rowsPerPage)}>
+            <Table stickyHeader sx={styles.table(rowsPerPage)} size="small">
               <TableHead sx={styles.tableHeader}>
                 <TableRow>
                   {COLUMNS.map((col) => (
@@ -152,7 +152,7 @@ export default function Transactions() {
                 </TableRow>
               </TableHead>
 
-              <TableBody sx={styles.tableBody}>
+              <TableBody sx={styles.tableBody(rowsPerPage)}>
                 {sortedTransactions.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={COLUMNS.length} align="center" sx={{ py: 2.5 }}>
@@ -163,7 +163,7 @@ export default function Transactions() {
                   sortedTransactions
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <TableRow key={row.id} hover sx={styles.tableRow}>
+                      <TableRow key={row.id} hover sx={styles.tableRow(rowsPerPage)}>
                         <TableCell sx={{ fontFamily: 'monospace', fontWeight: 600, color: '#1877F2' }}>
                           {row.sku}
                         </TableCell>
@@ -193,7 +193,7 @@ export default function Transactions() {
           </TableContainer>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50]}
+            rowsPerPageOptions={[10, 25, 50]}
             component="div"
             count={transactions.length}
             rowsPerPage={rowsPerPage}

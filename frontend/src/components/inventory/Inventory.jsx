@@ -162,8 +162,9 @@ export default function Inventory() {
         </Box>
       </Box>
 
-      <TableContainer sx={styles.tableContainer}>
-        <Table stickyHeader sx={styles.table} size="small">
+      {/* Passes rowsPerPage to conditionally toggle between hidden and auto scrolling */}
+      <TableContainer sx={styles.tableContainer(rowsPerPage)}>
+        <Table stickyHeader sx={styles.table(rowsPerPage)} size="small">
           <TableHead sx={styles.tableHeader}>
             <TableRow>
               {COLUMNS.map((col) => (
@@ -177,12 +178,12 @@ export default function Inventory() {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody sx={styles.tableBody}>
+          <TableBody sx={styles.tableBody(rowsPerPage)}>
             {filtered.length === 0 ? (
               <TableRow><TableCell colSpan={COLUMNS.length} align="center" sx={{ py: 2.5 }}><Typography color="text.secondary">No matching products found.</Typography></TableCell></TableRow>
             ) : (
               filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((p) => (
-                <TableRow key={p.id} hover onClick={() => setSelectedProduct(p)} sx={styles.tableRow}>
+                <TableRow key={p.id} hover onClick={() => setSelectedProduct(p)} sx={styles.tableRow(rowsPerPage)}>
                   <TableCell sx={{ fontFamily: 'monospace', fontWeight: 600, color: '#1877F2' }}>{p.sku}</TableCell>
                   <TableCell>{p.name}</TableCell>
                   <TableCell><Chip label={p.category} sx={{ bgcolor: '#F1F5F9', color: '#334155', fontWeight: 500, fontSize: '0.75rem', height: 24 }} /></TableCell>
@@ -200,7 +201,7 @@ export default function Inventory() {
       </TableContainer>
 
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]} component="div" count={filtered.length} rowsPerPage={rowsPerPage} page={page}
+        rowsPerPageOptions={[ 10, 25, 50]} component="div" count={filtered.length} rowsPerPage={rowsPerPage} page={page}
         onPageChange={(_, p) => setPage(p)} onRowsPerPageChange={(e) => { setRowsPerPage(+e.target.value); setPage(0); }}
         sx={styles.paginationBar}
       />
