@@ -82,19 +82,37 @@ export default function Inventory() {
     setFormOpen(true);
   };
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
     const skuTrimmed = formData.sku.trim();
 
+    // SKU Validation
     if (!skuTrimmed) newErrors.sku = 'Please add a SKU';
     else if (!/^[A-Z0-9]{4,12}$/.test(skuTrimmed)) newErrors.sku = 'SKU must be 4–12 letters/numbers';
     else if (products.some((p) => p.sku === skuTrimmed && p.id !== editingId)) newErrors.sku = 'SKU already exists';
 
+    // Text Fields
     if (!formData.name.trim()) newErrors.name = 'Please add an item name';
     if (!formData.category.trim()) newErrors.category = 'Please select a category';
-    if (formData.quantity === '' || Number(formData.quantity) < 0) newErrors.quantity = 'Quantity cannot be negative';
-    if (formData.price === '' || Number(formData.price) < 0) newErrors.price = 'Price cannot be negative';
-    if (formData.lowStockThreshold === '' || Number(formData.lowStockThreshold) < 0) {
+
+    // Stock Quantity Validation
+    if (formData.quantity === '' || formData.quantity === null || formData.quantity === undefined) {
+      newErrors.quantity = 'Please add a stock quantity';
+    } else if (Number(formData.quantity) < 0) {
+      newErrors.quantity = 'Quantity cannot be negative';
+    }
+
+    // Unit Price Validation
+    if (formData.price === '' || formData.price === null || formData.price === undefined) {
+      newErrors.price = 'Please add a price';
+    } else if (Number(formData.price) < 0) {
+      newErrors.price = 'Price cannot be negative';
+    }
+
+    // Low Stock Alert Validation
+    if (formData.lowStockThreshold === '' || formData.lowStockThreshold === null || formData.lowStockThreshold === undefined) {
+      newErrors.lowStockThreshold = 'Please add a low stock threshold';
+    } else if (Number(formData.lowStockThreshold) < 0) {
       newErrors.lowStockThreshold = 'Threshold cannot be negative';
     }
 
