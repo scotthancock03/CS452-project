@@ -88,7 +88,7 @@ const validateForm = () => {
 
     // SKU Validation
     if (!skuTrimmed) newErrors.sku = 'Please add a SKU';
-    else if (!/^[A-Z0-9]{4,12}$/.test(skuTrimmed)) newErrors.sku = 'SKU must be 4–12 letters/numbers';
+    else if (!/^[A-Z0-9]{6,12}$/.test(skuTrimmed)) newErrors.sku = 'SKU must be 6–12 letters/numbers';
     else if (products.some((p) => p.sku === skuTrimmed && p.id !== editingId)) newErrors.sku = 'SKU already exists';
 
     // Text Fields
