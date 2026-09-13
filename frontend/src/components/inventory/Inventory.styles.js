@@ -59,7 +59,7 @@ quantityChip: (qty, threshold) => {
     // Approaching threshold: between limit and 2x limit (or +5 buffer)
     const isWarning = currentQty > limit && currentQty <= Math.max(limit * 1.5, limit + 5);
 
-    const bg = isCritical ? '#FCE8E6' : isWarning ? '#fffb00' : '#E6F4EA';
+    const bg = isCritical ? '#FCE8E6' : isWarning ? '#fbff00a2' : '#E6F4EA';
     const text = isCritical ? '#C5221F' : isWarning ? '#ff9100' : '#137333';
 
     return {
