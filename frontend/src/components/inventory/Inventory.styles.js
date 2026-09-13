@@ -49,12 +49,30 @@ export const styles = {
     '& td': { py: 0, whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
     '&:hover': { bgcolor: '#F8FAFC' },
   }),
-  quantityChip: (qty) => ({
-    bgcolor: qty <= 5 ? '#FCE8E6' : qty <= 15 ? '#FEF3D6' : '#E6F4EA',
-    color: qty <= 5 ? '#C5221F' : qty <= 15 ? '#8F4B00' : '#137333',
-    fontWeight: 700,
-    height: 24,
-  }),
+quantityChip: (qty, threshold) => {
+    // Ensure both are valid numbers; fallback to 5 if threshold is missing/null/NaN
+    const currentQty = Number(qty) || 0;
+    const rawThreshold = Number(threshold);
+    const limit = !isNaN(rawThreshold) && rawThreshold > 0 ? rawThreshold : 5;
+
+    const isCritical = currentQty <= limit;
+    // Approaching threshold: between limit and 2x limit (or +5 buffer)
+    const isWarning = currentQty > limit && currentQty <= Math.max(limit * 1.5, limit + 5);
+
+    const bg = isCritical ? '#FCE8E6' : isWarning ? '#fffb00' : '#E6F4EA';
+    const text = isCritical ? '#C5221F' : isWarning ? '#ff9100' : '#137333';
+
+    return {
+      backgroundColor: `${bg} !important`,
+      color: `${text} !important`,
+      fontWeight: 700,
+      fontSize: '0.75rem',
+      height: 24,
+      '& .MuiChip-label': {
+        color: `${text} !important`,
+      },
+    };
+  },
   paginationBar: {
     bgcolor: '#EDF4FC',
     borderTop: '1px solid #D0E1F9',

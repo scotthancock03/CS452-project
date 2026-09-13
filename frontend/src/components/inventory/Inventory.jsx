@@ -82,34 +82,29 @@ export default function Inventory() {
     setFormOpen(true);
   };
 
-const validateForm = () => {
+  const validateForm = () => {
     const newErrors = {};
     const skuTrimmed = formData.sku.trim();
 
-    // SKU Validation
     if (!skuTrimmed) newErrors.sku = 'Please add a SKU';
-    else if (!/^[A-Z0-9]{6,12}$/.test(skuTrimmed)) newErrors.sku = 'SKU must be 6–12 letters/numbers';
+    else if (!/^[A-Z0-9]{4,12}$/.test(skuTrimmed)) newErrors.sku = 'SKU must be 4–12 letters/numbers';
     else if (products.some((p) => p.sku === skuTrimmed && p.id !== editingId)) newErrors.sku = 'SKU already exists';
 
-    // Text Fields
     if (!formData.name.trim()) newErrors.name = 'Please add an item name';
     if (!formData.category.trim()) newErrors.category = 'Please select a category';
 
-    // Stock Quantity Validation
     if (formData.quantity === '' || formData.quantity === null || formData.quantity === undefined) {
       newErrors.quantity = 'Please add a stock quantity';
     } else if (Number(formData.quantity) < 0) {
       newErrors.quantity = 'Quantity cannot be negative';
     }
 
-    // Unit Price Validation
     if (formData.price === '' || formData.price === null || formData.price === undefined) {
       newErrors.price = 'Please add a price';
     } else if (Number(formData.price) < 0) {
       newErrors.price = 'Price cannot be negative';
     }
 
-    // Low Stock Alert Validation
     if (formData.lowStockThreshold === '' || formData.lowStockThreshold === null || formData.lowStockThreshold === undefined) {
       newErrors.lowStockThreshold = 'Please add a low stock threshold';
     } else if (Number(formData.lowStockThreshold) < 0) {
@@ -180,7 +175,6 @@ const validateForm = () => {
         </Box>
       </Box>
 
-      {/* Passes rowsPerPage to conditionally toggle between hidden and auto scrolling */}
       <TableContainer sx={styles.tableContainer(rowsPerPage)}>
         <Table stickyHeader sx={styles.table(rowsPerPage)} size="small">
           <TableHead sx={styles.tableHeader}>
@@ -205,7 +199,12 @@ const validateForm = () => {
                   <TableCell sx={{ fontFamily: 'monospace', fontWeight: 600, color: '#1877F2' }}>{p.sku}</TableCell>
                   <TableCell>{p.name}</TableCell>
                   <TableCell><Chip label={p.category} sx={{ bgcolor: '#F1F5F9', color: '#334155', fontWeight: 500, fontSize: '0.75rem', height: 24 }} /></TableCell>
-                  <TableCell align="center"><Chip label={p.quantity} sx={styles.quantityChip(p.quantity)} /></TableCell>
+                  <TableCell align="center">
+                    <Chip 
+                      label={p.quantity} 
+                      sx={styles.quantityChip(p.quantity, p.lowStockThreshold ?? 5)} 
+                    />
+                  </TableCell>
                   <TableCell align="right">${Number(p.price).toFixed(2)}</TableCell>
                   <TableCell align="center">
                     <Tooltip title="Edit"><IconButton size="small" color="primary" onClick={(e) => handleOpenEdit(e, p)}><EditIcon fontSize="small" /></IconButton></Tooltip>
@@ -219,12 +218,11 @@ const validateForm = () => {
       </TableContainer>
 
       <TablePagination
-        rowsPerPageOptions={[ 10, 25, 50]} component="div" count={filtered.length} rowsPerPage={rowsPerPage} page={page}
+        rowsPerPageOptions={[10, 25, 50]} component="div" count={filtered.length} rowsPerPage={rowsPerPage} page={page}
         onPageChange={(_, p) => setPage(p)} onRowsPerPageChange={(e) => { setRowsPerPage(+e.target.value); setPage(0); }}
         sx={styles.paginationBar}
       />
 
-      {/* Details Dialog */}
       <Dialog open={Boolean(selectedProduct)} onClose={() => setSelectedProduct(null)} maxWidth="sm" fullWidth>
         {selectedProduct && (
           <>
@@ -248,7 +246,12 @@ const validateForm = () => {
                 </Box>
                 <Box>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>CURRENT STOCK</Typography>
-                  <Box mt={0.5}><Chip label={selectedProduct.quantity} sx={styles.quantityChip(selectedProduct.quantity)} /></Box>
+                  <Box mt={0.5}>
+                    <Chip 
+                      label={selectedProduct.quantity} 
+                      sx={styles.quantityChip(selectedProduct.quantity, selectedProduct.lowStockThreshold ?? 5)} 
+                    />
+                  </Box>
                 </Box>
                 <Box>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>LOW STOCK THRESHOLD</Typography>
@@ -271,7 +274,6 @@ const validateForm = () => {
         )}
       </Dialog>
 
-      {/* Add/Edit Form Dialog */}
       <Dialog open={formOpen} onClose={() => setFormOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ fontWeight: 700, color: '#1C2B46', py: 2 }}>
           {editingId ? 'Edit Product' : 'Add New Product'}
